@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arunachal Exam Portal</title>
+</head>
+<body>
+
+    <h1>Welcome to the Quiz</h1>
+    <p>This is where your Arunachal GS questions will appear!</p>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arunachal GS Practice Portal</title>
+    <style>
+        /* CSS: Making it look professional */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .quiz-container { background: white; width: 90%; max-width: 500px; padding: 30px; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        h2 { color: #2c3e50; font-size: 1.4rem; margin-bottom: 20px; }
+        .option-btn { display: block; width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #e0e0e0; border-radius: 8px; background: white; cursor: pointer; text-align: left; font-size: 1rem; transition: 0.3s; }
+        .option-btn:hover { border-color: #3498db; background-color: #f0f9ff; }
+        .correct { background-color: #2ecc71 !important; color: white; border-color: #27ae60; }
+        .wrong { background-color: #e74c3c !important; color: white; border-color: #c0392b; }
+        #explanation-box { margin-top: 20px; padding: 15px; background: #e8f4fd; border-left: 5px solid #3498db; display: none; }
+        #next-btn { margin-top: 20px; width: 100%; padding: 12px; background: #3498db; color: white; border: none; border-radius: 8px; cursor: pointer; display: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container" id="quiz-app">
+    <div id="progress">Question 1 of 10</div>
+    <h2 id="question-text">Loading question...</h2>
+    <div id="options-container"></div>
+    <div id="explanation-box"></div>
+    <button id="next-btn" onclick="loadNextQuestion()">Next Question</button>
+</div>
+
+<script src="questions.js"></script>
+
+<script>
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    function startQuiz() {
+        const q = myQuestions[currentQuestionIndex];
+        document.getElementById("progress").innerText = `Question ${currentQuestionIndex + 1} of ${myQuestions.length}`;
+        document.getElementById("question-text").innerText = q.q;
+        document.getElementById("explanation-box").style.display = "none";
+        document.getElementById("next-btn").style.display = "none";
+        
+        const container = document.getElementById("options-container");
+        container.innerHTML = "";
+
+        q.options.forEach((opt, index) => {
+            const btn = document.createElement("button");
+            btn.innerText = opt;
+            btn.className = "option-btn";
+            btn.onclick = () => checkAnswer(index, btn);
+            container.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selectedIndex, btn) {
+        const q = myQuestions[currentQuestionIndex];
+        const allBtns = document.querySelectorAll(".option-btn");
+        
+        allBtns.forEach(b => b.disabled = true); // Prevent double clicking
+
+        if (selectedIndex === q.correct) {
+            btn.classList.add("correct");
+            score++;
+        } else {
+            btn.classList.add("wrong");
+            allBtns[q.correct].classList.add("correct");
+        }
+
+        const expBox = document.getElementById("explanation-box");
+        expBox.innerHTML = `<strong>Note:</strong> ${q.info}`;
+        expBox.style.display = "block";
+        document.getElementById("next-btn").style.display = "block";
+    }
+
+    function loadNextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < myQuestions.length) {
+            startQuiz();
+        } else {
+            document.getElementById("quiz-app").innerHTML = `
+                <h2>Quiz Complete!</h2>
+                <p>You scored ${score} out of ${myQuestions.length}</p>
+                <button onclick="location.reload()" class="option-btn" style="text-align:center">Restart Quiz</button>
+            `;
+        }
+    }
+
+    // Initialize the quiz when page loads
+    window.onload = startQuiz;
+</script>
+
+</body>
+</html>
