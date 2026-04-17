@@ -33,15 +33,30 @@
     </style>
 </head>
 <body>
+<div id="quiz-container">
+    <h1>Arunachal Exam Portal</h1>
 
-<div class="quiz-container" id="quiz-app">
-    <div id="progress">Question 1 of 10</div>
-    <h2 id="question-text">Loading question...</h2>
-    <div id="options-container"></div>
-    <div id="explanation-box"></div>
-    <button id="next-btn" onclick="loadNextQuestion()">Next Question</button>
+    <div class="category-menu">
+        <button class="cat-btn" onclick="filterQuestions('All')">All</button>
+        <button class="cat-btn" onclick="filterQuestions('Polity')">Polity</button>
+        <button class="cat-btn" onclick="filterQuestions('History')">History</button>
+        <button class="cat-btn" onclick="filterQuestions('Science')">Science</button>
+        <button class="cat-btn" onclick="filterQuestions('Arunachal GK')">Arunachal GK</button>
+    </div>
+
+    <div class="question-box">
+        <h2 id="question-text">Loading question...</h2>
+        
+        <div id="options-container">
+            <button class="option-btn">Option 1</button>
+            <button class="option-btn">Option 2</button>
+            <button class="option-btn">Option 3</button>
+            <button class="option-btn">Option 4</button>
+        </div>
+
+        <button id="next-btn" onclick="nextQuestion()">Next Question →</button>
+    </div>
 </div>
-
 
 <script>
     let currentQuestionIndex = 0;
