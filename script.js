@@ -1,38 +1,44 @@
-// This is the "Brain" of your quiz app
 let currentQuestionIndex = 0;
-let filteredQuestions = [...myQuestions]; // Starts with all 100 questions
+let filteredQuestions = [];
 
-// 1. Function to filter by category (History, Science, etc.)
+// This function runs automatically when the page finishes loading
+window.onload = function() {
+    if (typeof myQuestions !== 'undefined') {
+        filteredQuestions = [...myQuestions];
+        displayQuestion();
+        console.log("Questions loaded successfully!");
+    } else {
+        console.error("questions.js was not found by the browser.");
+        document.getElementById("question-text").innerText = "Error: questions.js not found.";
+    }
+};
+
+function displayQuestion() {
+    // Safety check: make sure we have questions
+    if (filteredQuestions.length > 0) {
+        const q = filteredQuestions[currentQuestionIndex];
+        document.getElementById("question-text").innerText = q.q;
+        
+        // If you have an info box, you can update it too:
+        // document.getElementById("info-text").innerText = q.info;
+    }
+}
+
 function filterQuestions(categoryName) {
     if (categoryName === 'All') {
         filteredQuestions = [...myQuestions];
     } else {
         filteredQuestions = myQuestions.filter(q => q.category === categoryName);
     }
-    currentQuestionIndex = 0; // Always restart at question 1
+    currentQuestionIndex = 0;
     displayQuestion();
 }
 
-// 2. Function to show the question on the screen
-function displayQuestion() {
-    const q = filteredQuestions[currentQuestionIndex];
-    
-    // Update the question text
-    const questionElement = document.getElementById('question-box');
-    if (questionElement && q) {
-        questionElement.innerText = q.q;
-    }
-    
-    // This is where you would also update your answer buttons
-    console.log("Current Category:", q.category);
-}
-
-// 3. Function for the "Next" button
 function nextQuestion() {
     if (currentQuestionIndex < filteredQuestions.length - 1) {
         currentQuestionIndex++;
         displayQuestion();
     } else {
-        alert("End of this category!");
+        alert("You've reached the end of this category!");
     }
 }
