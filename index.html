@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arunachal Exam Portal</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -46,7 +47,15 @@
 <script>
     let currentQuestionIndex = 0;
     let score = 0;
-
+<div class="category-menu">
+    <h3>Select Subject:</h3>
+    <button class="cat-btn" onclick="filterQuestions('All')">All Subjects</button>
+    <button class="cat-btn" onclick="filterQuestions('Polity')">Polity</button>
+    <button class="cat-btn" onclick="filterQuestions('History')">History</button>
+    <button class="cat-btn" onclick="filterQuestions('Science')">Science</button>
+    <button class="cat-btn" onclick="filterQuestions('Geography')">Geography</button>
+    <button class="cat-btn" onclick="filterQuestions('Arunachal GK')">Arunachal GK</button>
+</div>
     function startQuiz() {
         const q = myQuestions[currentQuestionIndex];
         document.getElementById("progress").innerText = `Question ${currentQuestionIndex + 1} of ${myQuestions.length}`;
@@ -102,8 +111,6 @@
     // Initialize the quiz when page loads
     window.onload = startQuiz;
 </script>
-<script src="questions.js"></script>
 
-<script src="script.js"></script>
 </body>
 </html>
